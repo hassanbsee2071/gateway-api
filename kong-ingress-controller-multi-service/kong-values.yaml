@@ -3,7 +3,7 @@ gateway:
     http:
       enabled: true
   proxy:
-    type: NodePort
+    type: LoadBalancer
     http:
       enabled: true
     tls:
