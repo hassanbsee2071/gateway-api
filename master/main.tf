@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket         = "tajawal-terraform-states-pocs"
+    bucket         = "-pocs"
     key            = "poc-account/dev/aws-ireland/eks/v3/master/terraform.tfstate"
     region         = "eu-west-1"
     dynamodb_table = "tajawal-terraform-states"
