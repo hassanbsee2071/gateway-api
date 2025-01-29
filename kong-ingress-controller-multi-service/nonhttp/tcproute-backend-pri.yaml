@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.networking.k8s.io/v1alpha2
+kind: TCPRoute
+metadata:
+  name: echo-plaintext
+  namespace: backend
+spec:
+  parentRefs:
+  - name: kong-gateway-common-teams-nonhttp
+    sectionName: stream9001
+    namespace: private-gateway-nonhttp
+  rules:
+  - backendRefs:
+    - name: echo
+      port: 1025
+      kind: Service
+
+
+

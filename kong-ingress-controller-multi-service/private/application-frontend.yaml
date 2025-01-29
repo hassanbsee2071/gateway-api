@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-hello-world-private
+  namespace: frontend
+  labels:
+    app: nginx-hello-world-private
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-hello-world-private
+  template:
+    metadata:
+      labels:
+        app: nginx-hello-world-private
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html-volume
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: html-volume
+        configMap:
+          name: nginx-hello-world-configmap-private
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-hello-world-configmap-private
+  namespace: frontend
+data:
+  index.html: |
+    <html>
+    <head>
+      <title>Hello World</title>
+    </head>
+    <body>
+      <h1>Hello, World from Nginx!. Saying Hello From Frontend Private application....</h1>
+    </body>
+    </html>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-hello-world-service-private
+  namespace: frontend
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx-hello-world-private
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+

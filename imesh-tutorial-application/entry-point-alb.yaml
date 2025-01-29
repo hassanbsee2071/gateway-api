@@ -1,0 +1,31 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: istio-gateway-alb-public-entry
+  namespace: k8s-gw
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: istio-gateway-alb-public-entry
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:553937981975:certificate/3f03ad80-94c7-4723-aea5-5292143947ee
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/healthcheck-path: /healthz/ready
+    alb.ingress.kubernetes.io/healthcheck-port: '15021'
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-1-2017-01
+    alb.ingress.kubernetes.io/group.name: tajawal.io
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/group.order: '10'
+spec:
+  ingressClassName: alb
+  rules:  
+    -  http:
+        paths: 
+          - path: /*
+            backend:
+              service:
+                name: k8s-gateway-istio
+                port:
+                  number: 80
+            pathType: ImplementationSpecific                        

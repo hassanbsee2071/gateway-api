@@ -1,0 +1,14 @@
+kind: ReferenceGrant
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: allow-apples-echo-in-infra
+  namespace: kong-nonhttp
+spec:
+  from: 
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      namespace: application
+  to:
+    - group: ""
+      kind: Service
+      # name: ""  # This could be left empty to allow ANY service in the namespace.

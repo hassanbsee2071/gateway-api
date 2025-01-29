@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-api-kong-gateway-almosafer-flight-api-v3-ingress-ae
+  namespace: public-gateway
+  annotations:
+    kubernetes.io/ingress.class: 'kong'
+    konghq.com/plugins: maxmind-header
+    konghq.com/https-redirect-status-code: "426"
+    konghq.com/path-handling: "v1"
+    konghq.com/protocols: "http,https"
+    konghq.com/strip-path: "true"
+spec:
+  rules:
+    - host: next-dev-ae.almosafer.com
+      http:
+        paths:
+          - path: /api/v3/flights/
+            backend:
+              service:
+                name: flights-api-v3
+                port:
+                  number: 80
+            pathType: ImplementationSpecific

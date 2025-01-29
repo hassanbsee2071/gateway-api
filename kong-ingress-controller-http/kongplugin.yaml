@@ -1,0 +1,42 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: geoip2-headers
+  namespace: application 
+  annotations:
+    kubernetes.io/ingress.class: kong-http
+config:
+plugin: maxmind-header
+
+# ---
+
+# apiVersion: configuration.konghq.com/v1
+# kind: KongPlugin
+# metadata:
+#   name: geoip2-headers
+#   namespace: kong-http 
+#   annotations:
+#     kubernetes.io/ingress.class: kong-http
+# config:
+# plugin: maxmind-header
+
+# ---
+# apiVersion: configuration.konghq.com/v1
+# kind: KongPlugin
+# metadata:
+#   name: geoip2-headers
+#   namespace: public-gateway 
+#   annotations:
+#     kubernetes.io/ingress.class: kong-http
+# config:
+# plugin: maxmind-header
+
+## this does not work #####
+# apiVersion: configuration.konghq.com/v1
+# kind: KongClusterPlugin
+# metadata:
+#   name: geoip2-headers
+#   labels:
+#     global: "true"
+# config: {}
+# plugin: maxmind-header

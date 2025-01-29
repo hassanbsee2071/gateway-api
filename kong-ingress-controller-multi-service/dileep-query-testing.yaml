@@ -1,0 +1,44 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: flights-hello-world
+  namespace: flights
+spec:
+  hostnames:
+  - gateway-api-dileep.tajawal.io
+  parentRefs:
+    - name: kong-gateway-flights
+      namespace: public-gateway-http
+      sectionName: http-flights
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: nginx-hello-world-service
+          port: 80
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: hotels-hello-world
+  namespace: hotels
+spec:
+  hostnames:
+  - gateway-api-dileep.tajawal.io
+  parentRefs:
+    - name: kong-gateway-hotels
+      namespace: public-gateway-http
+      sectionName: http-hotels
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: nginx-hello-world-service
+          port: 80
+

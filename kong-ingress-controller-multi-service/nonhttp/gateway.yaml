@@ -1,0 +1,31 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: kong-gateway-common-teams-nonhttp
+  namespace: private-gateway-nonhttp
+spec:
+  gatewayClassName: kong-class-multi
+  listeners:
+  - name: stream9000
+    protocol: TCP
+    port: 9000
+    allowedRoutes:
+      namespaces:
+        from: All
+
+  - name: stream9001
+    protocol: TCP
+    port: 9001
+    allowedRoutes:
+      namespaces:
+        from: All
+
+  - name: stream9002
+    protocol: UDP
+    port: 9002
+    allowedRoutes:
+      namespaces:
+        from: All
+  addresses:
+    - type: Hostname
+      value: k8s-kongmult-kongmult-81545a7a66-75418e3612e5914b.elb.eu-west-1.amazonaws.com

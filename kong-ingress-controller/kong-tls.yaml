@@ -1,0 +1,1270 @@
+---
+# Source: ingress/charts/controller/templates/service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kong-controller
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+---
+# Source: ingress/charts/gateway/templates/service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kong-gateway
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: gateway
+    helm.sh/chart: gateway-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+---
+# Source: ingress/charts/controller/templates/admission-webhook.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kong-controller-validation-webhook-ca-keypair
+  namespace:  kong
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+type: kubernetes.io/tls
+data:
+    tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURKRENDQWd5Z0F3SUJBZ0lSQU52ME1BdUMxWW1QazNDQXoxTHZMTG93RFFZSktvWklodmNOQVFFTEJRQXcKSERFYU1CZ0dBMVVFQXhNUmEyOXVaeTFoWkcxcGMzTnBiMjR0WTJFd0hoY05NalV3TVRBeU1UWXpORFV5V2hjTgpNelF4TWpNeE1UWXpORFV5V2pBY01Sb3dHQVlEVlFRREV4RnJiMjVuTFdGa2JXbHpjMmx2YmkxallUQ0NBU0l3CkRRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFOdEF6b1JiUTNUY1luSkVBakFSU3Zvb1BSdkUKSE5wa2lyS1IzVmM1dkxxS0J5ejBReHdrc05vNW1yQUM1MTJGOXdsVGppaXpIZzJRMWxZOGNUeEd1Tmo3SVNiVApzV2tkVHJJWEpWaUlLWkc1cTB6cC9sNTFBeWRGZzRkTXVFTzBVemFkOElmZmFkblR6MHNUaG5Ga2tkUjE3S1MwClZNcmN3d3ZTZGViMHI1OWdhRDJYVGlUMU1FOHZYblVScXZ1cGxvWS9iWGVCQnNKLzBhZXdVQ05FMnNLQmFZK1oKRFliLzJwYVpRaDFZVkZvcExGQ3NoS2U0TEZzVG9tL0diYWJ4K05wK29wTEtKNGpXK013NTRob3lzRFhZMjBsSQpmZmRIVWtPSmdGY1B4eVZ6NkhOWmZIWVRUS2pWVkUxTDk4L1M2V2cvaERHT1htc3h0VXc4Q2dzdFQ0TUNBd0VBCkFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2tNQjBHQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUYKQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFIL01CMEdBMVVkRGdRV0JCU2IySVdZOTJVcUhFeTZkQldudDR5MQpRQkpFK0RBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQUJ3N0NEU3psb0I5NVJzM0t1K0hsQkppcktLU1JRZGF2Cnh4ZTNUTWpveUdKWkpHNTV4NkRaZ1JqdXJpTDZzcnFIUXhOcXcxUXNIVk92dHljc1JxcTUrb1VpOFdKbS9hZ1cKMDBzS0FoY0xuMFJuNHFQdmQyWWVNREo0ZFI0OGp2T2FWNm5MNERPVGh4SDcyaFVqem1GcnFqbGhVZVpENTVIMAprZVdGeVZ1SjVkR01zNmRDQWt0YzllTEoyclNPT2xqMjArRW9XdU5ZcmF3eWJ5QytNdXk2NUFrTU9TOTB3TWt5Cmp6eU10a2pkVTVsR05CNWF1aU1TRlFPc3lzUzlzWWdWUHdXaWUvSUVkeHF4RmNqVUdkQnZMRGRyV2tyVGhPSmEKMmNtUXhBZ2h4VzhqNXMzMDMrUW9kcG1CQWNEU1ZqUWUyRnErTm83QXFQNElML0JTdWdzTkxRPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+    tls.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcFFJQkFBS0NBUUVBMjBET2hGdERkTnhpY2tRQ01CRksraWc5RzhRYzJtU0tzcEhkVnptOHVvb0hMUFJECkhDU3cyam1hc0FMblhZWDNDVk9PS0xNZURaRFdWanh4UEVhNDJQc2hKdE94YVIxT3NoY2xXSWdwa2JtclRPbisKWG5VREowV0RoMHk0UTdSVE5wM3doOTlwMmRQUFN4T0djV1NSMUhYc3BMUlV5dHpEQzlKMTV2U3ZuMkJvUFpkTwpKUFV3VHk5ZWRSR3ErNm1XaGo5dGQ0RUd3bi9ScDdCUUkwVGF3b0ZwajVrTmh2L2FscGxDSFZoVVdpa3NVS3lFCnA3Z3NXeE9pYjhadHB2SDQybjZpa3NvbmlOYjR6RG5pR2pLd05kamJTVWg5OTBkU1E0bUFWdy9ISlhQb2MxbDgKZGhOTXFOVlVUVXYzejlMcGFEK0VNWTVlYXpHMVREd0tDeTFQZ3dJREFRQUJBb0lCQUhINk5hRitwQW1iQzU1bApGbElRbTA2Q0hvcFJuOEkwWkJuQ1ZETWs4NlJ4WHB1UysxUWxDcjdYRlVBTXNtUGU0WFk2dG5zWDZqYVpKYU04CjFvekVJeEhCTXhHeEdOZ1JBVGo1YVZPbHJSNXhTOGkzRjZIWTZHUEE4a2dpck9PZFdXamFJQkV5SmgrenlWNDQKN3pvQlV3SUVyNWxMbVl5L3lMRmJuaWtLNkVWTDdVVGpYVk9TVTZ4djBtRHFYMUtIU2VWazlUQlpJamJySzRsRwpLVlBacnJMWFNVZ2FvRWtTdkJEcGZQS095aUxjMUQwVHpyK01YNDlGaVZialZTaExKSnFLdG9MOStYZ1BudGh4Ck5taDRjQmQzQmpkNm4xWXp1Z0hYMFdaa0FTV3dZVkRNNUtLL3E3UGFCNldSY3djWG9lZDVXRm9jaENZTXRTMkoKeVVNRUdXRUNnWUVBOWhTQWwrRHpwb2YvVHlYMmhTOTlmTWs3eWVXUXNnV3YzWlNVRkhWeVg5a3Jkc0hMSytKYgpGeE1xWXNZajAyaG1rRGUyWXdnZkFBWFhET1VUNmhwaUJLTk5hMEhpU0NkNFc3RHpTMmQzTHBMdDN2MFdXZ1MvCi9DWlFxQ0FiV1pGbklSZlhsS3czejBtQVo3cFZ2ZWkvcE1veCs0NExDNTVZZjE3Rk54VWU4RE1DZ1lFQTVCZDAKcXQzOUkveEpYbTlqaGJPWXEyTkNObWJxOUVOSWFzUFlmUWwrc1c0bis4QVhjVEE5MTFpUGhjT1RpYUEzZmVZWApHT2VDQ1VnMDFSdkEwQjhHcjU4RlErMVJJS1A5VGxYSnY5N2pCdE5lVE41RHpyN2dObHJpYzlMcWJES3hSVytzCmc5U09KS0JQQjM0cGNoeXRKS0Q1V0RFRlMwQndub3VoU2NFSWszRUNnWUVBM3FLTCtWMG5jNHBsUFptT0lNOW4KakNlUU5VakNFWjQ5ajQ1bUx1QlhXMHBqSFcyVndKMXBaa1lMdWhPanhCZ1hldkU4elBwQytjVk8zRGJCUHJNaAo3U3BGMS8xaW1YOUVVRWlXeGFqVlZrak9kMG1wR0VabDM5NVdhTldyaU95WlRvS0FvOXp3SFZWVm5BTWtvYzNhCjNWK2x1djYzRllyc2JFZzB5M0lMYktzQ2dZRUFtcmp1Z3htaXBjNTFWb0hvMk1GRFJyOUdJdkVkWUNSajgwaDIKaWhydXZoMGpNanJUckF3MVp1YkVOTkMrUEJWYWp5U05kbTlVWGtlRXp5ck1XR0V6Zjk0M0RDVG5hMlRTWjFqNgpTaFUvbTFtMkZoNlBrS2NhSU1UMTUrdWk2VkpadmVoSzlnSXhpZGJVeFJobnRPaU82dEhuVWxPdWE2V0N2NG1vCkZ3ZkNjWUVDZ1lFQXVobzVSYjB5dHRsK2I0UnRIeVRabFEvVzZsRVFQblhObWtYTVlqT0NsV01WOUNzMGkycksKVWtFTzl4a2tKOFNmUDQ3UmEwSjZ2NDlBT0NWTythNm5uK1REcXBnOTZjbXB6dUE0aENlSm1BT042SG95L0xSRQpZSmlwYjlwaTZMbjQwcGdZa0piTWpTUHFZYkIxckNpemJvQ1VDL1NnbkVUK0xBdXlzZVhDRUw4PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+---
+# Source: ingress/charts/controller/templates/admission-webhook.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kong-controller-validation-webhook-keypair
+  namespace:  kong
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+type: kubernetes.io/tls
+data:
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURkekNDQWwrZ0F3SUJBZ0lSQUo1SmxNZUtIc1o2L2d2VHZqZStucnd3RFFZSktvWklodmNOQVFFTEJRQXcKSERFYU1CZ0dBMVVFQXhNUmEyOXVaeTFoWkcxcGMzTnBiMjR0WTJFd0hoY05NalV3TVRBeU1UWXpORFV5V2hjTgpNelF4TWpNeE1UWXpORFV5V2pBMk1UUXdNZ1lEVlFRREV5dHJiMjVuTFdOdmJuUnliMnhzWlhJdGRtRnNhV1JoCmRHbHZiaTEzWldKb2IyOXJMbXR2Ym1jdWMzWmpNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUIKQ2dLQ0FRRUF5VzVzSTVtRUtabEkzR1ZmN09JbGgxNVBwdHB2S2lybGdCcmZwa211aDk4UmQvdURvN0NmQmkzQwplSFVBcHdNTEkzbEw1RVZwZyt1eUtlVHAwN24vRnFpR1dJaEVmcWw1MC9hcGVzWjRWS0JqK2tPSmkxcSsxS0tHCmsxVWJudUNyRzZpbGZocU1nenI4cEFwRWt5anJnajc1QTkrSlU2TFh5aWFGZUJVYmg3RDBpU3NEMEE2aVl5R1AKQjRubktLK09ndDlSamVia3R3WXJRQ2RoNWFzU0NlSE1ITTFEUEFNZmdoT2xuUmlrWmRRWkJDeVh0NlRYSVUxWAptRGtvSDlONGIwVHh4SExMVnUrR3JieXZIY2Vva1V0UTMxVHd1WnVoM2M2L1RXN2V2ZWpXSXFaUitnOG1Ja1FuCndLTkhJY0lLaDQ1azhzaDczZW14OW1BR24rUjhEUUlEQVFBQm80R1pNSUdXTUE0R0ExVWREd0VCL3dRRUF3SUYKb0RBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUlLd1lCQlFVSEF3SXdEQVlEVlIwVEFRSC9CQUl3QURBZgpCZ05WSFNNRUdEQVdnQlNiMklXWTkyVXFIRXk2ZEJXbnQ0eTFRQkpFK0RBMkJnTlZIUkVFTHpBdGdpdHJiMjVuCkxXTnZiblJ5YjJ4c1pYSXRkbUZzYVdSaGRHbHZiaTEzWldKb2IyOXJMbXR2Ym1jdWMzWmpNQTBHQ1NxR1NJYjMKRFFFQkN3VUFBNElCQVFDSWRTUUtkVmJuWWM0NURqT0FvNzE0R2JzdGJjSDZJTmQrakxrZFlZd2lybnFHaHN2NwpkYlNpaFhocFVBSmFKTEVKK2J6MEUyckNoWVpJdkc4MzhjekJVZFIxaDlCSm0xZnh2SHB2MzhYa0EyamZtUUF2CnQ1RXNHWkFIZDNoYytQWGxWbGpZYUJ4Wnd2RFRhaDI5bE5WNmtiOTVqRUp6cmRIMjMzTjFXL09EVWpvMEZzdXUKZmZISXUvWnIvcjdMckFuNjhTT1JlVHhjV1cxbWJ4aWtzRVlURW5VTzZ2WVJFbmF6S0NnUlgzeUZuNDdGZThKSApUTHpwcWc4QmVHamJGS2kwbnZMa24yWFBSdHhuaGozd25VT1d4MFJzQ3JYK0NjS09IazN5Y3ppTC8xMXdoMk92CkNZRVBmNnFLMnd2V3Z3djFJRXFtK3dlOFM1NWN0dkpQL085VAotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+  tls.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBeVc1c0k1bUVLWmxJM0dWZjdPSWxoMTVQcHRwdktpcmxnQnJmcGttdWg5OFJkL3VECm83Q2ZCaTNDZUhVQXB3TUxJM2xMNUVWcGcrdXlLZVRwMDduL0ZxaUdXSWhFZnFsNTAvYXBlc1o0VktCaitrT0oKaTFxKzFLS0drMVVibnVDckc2aWxmaHFNZ3pyOHBBcEVreWpyZ2o3NUE5K0pVNkxYeWlhRmVCVWJoN0QwaVNzRAowQTZpWXlHUEI0bm5LSytPZ3Q5UmplYmt0d1lyUUNkaDVhc1NDZUhNSE0xRFBBTWZnaE9sblJpa1pkUVpCQ3lYCnQ2VFhJVTFYbURrb0g5TjRiMFR4eEhMTFZ1K0dyYnl2SGNlb2tVdFEzMVR3dVp1aDNjNi9UVzdldmVqV0lxWlIKK2c4bUlrUW53S05ISWNJS2g0NWs4c2g3M2VteDltQUduK1I4RFFJREFRQUJBb0lCQVFDNE5RZ2x3alZ2eVdNdApVblBYOExQN1NJODArbHRneDV2YmZEZjlIVExEeElaNElBV3hnMHJhWHF5U2RnVmp0ay9RWUJPOExKSWk5eitXCk9tWnZubytlQy8zWUpyM2t5MTNETHJhc3RhWERWbTQzcHQyNUdBS2QrQWR6NHdnQVVsdUlUc0VSUW53dllwazUKOXIzaGlqRmRpZk0xekk0TWMwWTk4dDVxQTN1S3FQU0xhS2l5VTRjbkpmUmtMMXRrUTAyK0VvRWJla2wyR05vQQpscHpvbCtOd3pjdHFuVzRnVDVFTElTdDFOc3cvZ2ttV3Z3QW94NkNwYjhBRHU5RnpKRUlIWVluZDl0Mmp2Ty9uCjhmVlVyKzR2THBYT2R4b0FTV3A0Qmp6SEhKN3lpei8wRVhlMC9ORW9Hc29NY0ZzejJ5QmtrcVFFK3dxSW43cnYKd1hWWFY5a3RBb0dCQU9DTUo3MGMydXlrKzVYRCt6TWJuL3VzSEdoRW83b0VDd0tQSDhWZUR1SmJSWTBiZWlLSgo4OHlYcmFxNmU1eEVEMDRxamw1b3FsNjk5bWZ4ekMvUTFYRXp0REptZm9Pb1pseVNFM2RwcnF1SUtMbUJGYjkrCnVvcXZ4NXNBMkFpMHl4MlNlVzZKWXZ3UGY5aUUwcWR2S0tMQVM4R09ybGVmVUVPTVZBQjNqd056QW9HQkFPV2wKWGNkbkdNc25FQm9FUk1WVnVsSHBWamd6ZDhMaFY0aFpOTlM5cnQ2UGJZZEorRDIvSnpNZjVzWXRwZzBTbVR0YQo5R00vRkwzeXQ1YVkzVlJOZTBEVGRJejd0M0twcEgySnlzS1BsWkhXMkI1c0ZqRnN3VXB1VGtRdC8rODhnM0Z0CitmY2dEMHA4UE1TRGRVQXpReFUyZUtYbFRNeHlVMGR6MEdZT2NhSi9Bb0dBUnN6cVdyNldhTGM4ZkdSbStCNWwKdXp6eFdBOE1jTUtGbGpENm00aWt1TXAraTVkMlV4MmNPWTQ1dS9OQXRtemZSbzQwaGFBSzJBU2RoUGpBb1BMLwoyY21ycjVpUm00R2xoTnFxT0tTaDVvUHdFMDJZUmVEM2dITWNSTXRuVXBkdTA4d3piWjcwRHZYMElaai9zcnRoCjNLODFNN3FCVGk5MVoxYi94WVh0R2ZFQ2dZQjM1RUMwaE8rZHlEUVEwUit5UXBKMmh6SjdQdXVNYzZjR1NVUmEKdVBqZHV0Vzg1dkpTRWtUOTNPN1hraWQ1OWJiSUZURTN5MHdoNnVETUg5eVZVYXBDYXVNVFk2c2ZrcytNdHU2RAphd0QwVmMwWS9PY05RTEVkRWIrTXV0TStiRUpYYXNvd3FhMHgvdkNleTk3ZitLTlNKTkVTRTBkb0NWdlBGdmk2Ci8xbDJNd0tCZ0M1TXlYZkROMDBZUytrNy9uRk1rWEpjak5TeWUwdlNOd201bGpjYW5FeE1BRFpVek9rbUNRazAKRDg5cWNwWlZWYU80ZXNPWGswbnhoZmtkcmhwb2N5eGRCL3E0STczY1Fyazd2bzBZRFVnSHA1SkhqTzNia2pTSAo2ZFNLTzU2RU9ka2lDbTM2SnppVFhoQ1lIU1VHenFydXRhbGE2RWpsMjFpUDZCWWJiajZLCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
+---
+# Source: ingress/charts/controller/templates/controller-rbac-resources.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+  name: kong-controller
+rules:
+
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - backendtlspolicies
+  - httproutes
+  - gatewayclasses
+  - gateways
+  - grpcroutes
+  - referencegrants
+  - tlsroutes
+  verbs:
+  - get
+  - list
+  - watch
+  - patch
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - backendtlspolicies/status
+  - gatewayclasses/status
+  - gateways/status
+  - httproutes/status
+  - backendtlspolicies
+  - httproutes
+  - gatewayclasses
+  - gateways
+  - grpcroutes
+  - referencegrants
+  - tlsroutes
+  verbs:
+  - patch
+  - update
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongcustomentities
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongcustomentities/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongupstreampolicies
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongupstreampolicies/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongconsumergroups
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongconsumergroups/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - services/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - ingressclassparameterses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongconsumers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongconsumers/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongingresses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongingresses/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongplugins
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongplugins/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - tcpingresses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - tcpingresses/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - udpingresses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - udpingresses/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - extensions
+  resources:
+  - ingresses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - extensions
+  resources:
+  - ingresses/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - discovery.k8s.io
+  resources:
+  - endpointslices
+  verbs:
+  - get
+  - list
+  - watch
+
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - konglicenses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - konglicenses/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongvaults
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongvaults/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongclusterplugins
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - configuration.konghq.com
+  resources:
+  - kongclusterplugins/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingressclasses
+  verbs:
+  - get
+  - list
+  - watch
+---
+# Source: ingress/charts/controller/templates/controller-rbac-resources.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kong-controller
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kong-controller
+subjects:
+  - kind: ServiceAccount
+    name: kong-controller
+    namespace: kong
+---
+# Source: ingress/charts/controller/templates/controller-rbac-resources.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kong-controller
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - pods
+      - secrets
+      - namespaces
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    resourceNames:
+      # Defaults to "<election-id>-<ingress-class>"
+      # Here: "<kong-ingress-controller-leader-nginx>-<nginx>"
+      # This has to be adapted if you change either parameter
+      # when launching the nginx-ingress-controller.
+      - "kong-ingress-controller-leader-kong-kong"
+    verbs:
+      - get
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - create
+  # Begin KIC 2.x leader permissions
+  - apiGroups:
+      - ""
+      - coordination.k8s.io
+    resources:
+      - configmaps
+      - leases
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - patch
+      - delete
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - get
+---
+# Source: ingress/charts/controller/templates/controller-rbac-resources.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kong-controller
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kong-controller
+subjects:
+  - kind: ServiceAccount
+    name: kong-controller
+    namespace: kong
+---
+# Source: ingress/charts/controller/templates/admission-webhook.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-controller-validation-webhook
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+spec:
+  ports:
+  - name: webhook
+    port: 443
+    protocol: TCP
+    targetPort: webhook
+  selector:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+    app.kubernetes.io/component: app
+---
+# Source: ingress/charts/controller/templates/controller-service-metrics.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-controller-metrics
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+spec:
+  ports:
+  - name: cmetrics
+    port: 10255
+    protocol: TCP
+    targetPort: cmetrics
+  - name: status
+    port: 10254
+    protocol: TCP
+    targetPort: cstatus
+  selector:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+    app.kubernetes.io/component: app
+---
+# Source: ingress/charts/gateway/templates/service-kong-admin.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-gateway-admin
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: gateway
+    helm.sh/chart: gateway-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+spec:
+  type: ClusterIP
+  ports:
+  - name: kong-admin
+    port: 8001
+    targetPort: 8001
+    protocol: TCP
+  - name: kong-admin-tls
+    port: 8444
+    targetPort: 8444
+    protocol: TCP
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: gateway
+    app.kubernetes.io/component: app
+    app.kubernetes.io/instance: "kong"
+---
+# Source: ingress/charts/gateway/templates/service-kong-manager.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-gateway-manager
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: gateway
+    helm.sh/chart: gateway-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+spec:
+  type: NodePort
+  ports:
+  - name: kong-manager
+    port: 8002
+    targetPort: 8002
+    protocol: TCP
+  - name: kong-manager-tls
+    port: 8445
+    targetPort: 8445
+    protocol: TCP
+  selector:
+    app.kubernetes.io/name: gateway
+    app.kubernetes.io/component: app
+    app.kubernetes.io/instance: "kong"
+---
+# Source: ingress/charts/gateway/templates/service-kong-proxy.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-gateway-proxy
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: gateway
+    helm.sh/chart: gateway-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+    enable-metrics: "true"
+spec:
+  type: NodePort
+  ports:
+  - name: kong-proxy
+    port: 80
+    targetPort: 8000
+    nodePort: 32001
+    protocol: TCP
+  - name: kong-proxy-tls
+    port: 443
+    targetPort: 8443
+    nodePort: 32002
+    protocol: TCP
+
+  - name: kong-proxy-status
+    port: 8100
+    targetPort: 8100
+    nodePort: 32003
+    protocol: TCP
+
+  selector:
+    app.kubernetes.io/name: gateway
+    app.kubernetes.io/component: app
+    app.kubernetes.io/instance: "kong"
+---
+# Source: ingress/charts/controller/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kong-controller
+  namespace:  kong
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+    app.kubernetes.io/component: app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: controller
+      app.kubernetes.io/component: app
+      app.kubernetes.io/instance: "kong"
+
+  template:
+    metadata:
+      annotations:
+        kuma.io/service-account-token-volume: kong-controller-token
+        kuma.io/gateway: "enabled"
+        traffic.kuma.io/exclude-outbound-ports: "8444"
+        traffic.sidecar.istio.io/excludeOutboundPorts: "8444"
+        traffic.sidecar.istio.io/includeInboundPorts: ""
+      labels:
+        app.kubernetes.io/name: controller
+        helm.sh/chart: controller-2.46.0
+        app.kubernetes.io/instance: "kong"
+        app.kubernetes.io/managed-by: "Helm"
+        
+        app.kubernetes.io/version: "3.8"
+        app.kubernetes.io/component: app
+        app: kong-controller
+        
+        version: "3.8"
+    spec:
+      serviceAccountName: kong-controller
+      automountServiceAccountToken: false
+      
+      containers:
+      - name: ingress-controller
+        securityContext:
+      
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+        args:
+        
+        ports:
+        - name: webhook
+          containerPort: 8080
+          protocol: TCP
+        - name: cmetrics
+          containerPort: 10255
+          protocol: TCP
+        - name: cstatus
+          containerPort: 10254
+          protocol: TCP
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace  
+        
+
+        
+        - name: CONTROLLER_ADMISSION_WEBHOOK_LISTEN
+          value: "0.0.0.0:8080"
+        - name: CONTROLLER_ELECTION_ID
+          value: "kong-ingress-controller-leader-kong"
+        - name: CONTROLLER_INGRESS_CLASS
+          value: "kong"
+        - name: CONTROLLER_KONG_ADMIN_SVC
+          value: "kong/kong-gateway-admin"
+        - name: CONTROLLER_KONG_ADMIN_TLS_SKIP_VERIFY
+          value: "true"
+        - name: CONTROLLER_PUBLISH_SERVICE
+          value: "kong/kong-gateway-proxy"
+        
+        image: kong/kubernetes-ingress-controller:3.4
+        imagePullPolicy: IfNotPresent
+      
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /readyz
+            port: 10254
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /healthz
+            port: 10254
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources:
+          {}
+        volumeMounts:
+        - name: webhook-cert
+          mountPath: /admission-webhook
+          readOnly: true
+        - name: kong-controller-token
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          readOnly: true
+        
+        
+       
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: kong-controller-prefix-dir
+          emptyDir:
+            sizeLimit: 256Mi
+        - name: kong-controller-tmp
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: kong-controller-token
+          projected:
+            sources:
+            - serviceAccountToken:
+                expirationSeconds: 3607
+                path: token
+            - configMap:
+                items:
+                - key: ca.crt
+                  path: ca.crt
+                name: kube-root-ca.crt
+            - downwardAPI:
+                items:
+                - fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.namespace
+                  path: namespace
+        - name: webhook-cert
+          secret:
+            secretName: kong-controller-validation-webhook-keypair
+---
+# Source: ingress/charts/gateway/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kong-gateway
+  namespace:  kong
+  labels:
+    app.kubernetes.io/name: gateway
+    helm.sh/chart: gateway-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+    app.kubernetes.io/component: app
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gateway
+      app.kubernetes.io/component: app
+      app.kubernetes.io/instance: "kong"
+
+  template:
+    metadata:
+      annotations:
+        kuma.io/service-account-token-volume: kong-gateway-token
+        kuma.io/gateway: "enabled"
+        traffic.sidecar.istio.io/includeInboundPorts: ""
+      labels:
+        app.kubernetes.io/name: gateway
+        helm.sh/chart: gateway-2.46.0
+        app.kubernetes.io/instance: "kong"
+        app.kubernetes.io/managed-by: "Helm"
+        
+        app.kubernetes.io/version: "3.8"
+        app.kubernetes.io/component: app
+        app: kong-gateway
+        
+        version: "3.8"
+    spec:
+      serviceAccountName: kong-gateway
+      automountServiceAccountToken: false
+      
+      initContainers:
+      - name: clear-stale-pid
+        image: public.ecr.aws/x1p5h1z4/kong:3.8-maxmind-v3
+        imagePullPolicy: IfNotPresent
+        securityContext:
+        
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          seccompProfile:
+            type: RuntimeDefault
+        resources:
+          {}
+        command:
+        - "rm"
+        - "-vrf"
+        - "$KONG_PREFIX/pids"
+        env:
+         
+        
+        - name: KONG_TRUSTED_IPS
+          value: "0.0.0.0/0,::/0"   
+        - name: KONG_REAL_IP_HEADER
+          value: "X-Forwarded-For"               
+        - name: KONG_ADMIN_ACCESS_LOG
+          value: "/dev/stdout"
+        - name: KONG_ADMIN_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_ADMIN_GUI_ACCESS_LOG
+          value: "/dev/stdout"
+        - name: KONG_ADMIN_GUI_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_ADMIN_LISTEN
+          value: "0.0.0.0:8001, [::]:8001, 0.0.0.0:8444 http2 ssl, [::]:8444 http2 ssl"
+        - name: KONG_CLUSTER_LISTEN
+          value: "off"
+        - name: KONG_DATABASE
+          value: "off"
+        # - name: KONG_LUA_PACKAGE_PATH
+        #   value: "/opt/?.lua;/opt/?/init.lua;;"
+        - name: KONG_LUA_PACKAGE_PATH
+          value: "/usr/local/lib/luarocks/rocks-5.1/?.lua;/opt/?.lua;/opt/?/init.lua;;"
+        - name: KONG_NGINX_WORKER_PROCESSES
+          value: "2"
+        - name: KONG_PORTAL_API_ACCESS_LOG
+          value: "/dev/stdout"
+        - name: KONG_PORTAL_API_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_PORT_MAPS
+          value: "80:8000, 443:8443"
+        - name: KONG_PREFIX
+          value: "/kong_prefix/"
+        - name: KONG_PROXY_ACCESS_LOG
+          value: "/dev/stdout"
+        - name: KONG_PROXY_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_PROXY_LISTEN
+          value: "0.0.0.0:8000, [::]:8000, 0.0.0.0:8443 http2 ssl, [::]:8443 http2 ssl"
+        - name: KONG_PROXY_STREAM_ACCESS_LOG
+          value: "/dev/stdout basic"
+        - name: KONG_PROXY_STREAM_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_ROLE
+          value: "traditional"
+        - name: KONG_ROUTER_FLAVOR
+          value: "traditional"
+        - name: KONG_STATUS_ACCESS_LOG
+          value: "off"
+        - name: KONG_STATUS_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_STATUS_LISTEN
+          value: "0.0.0.0:8100, [::]:8100"
+        - name: KONG_STREAM_LISTEN
+          value: "off"
+        - name: KONG_PLUGINS  
+          value: "bundled,maxmind-header"  
+        - name: KONG_LOG_LEVEL
+          value: "debug"      
+        volumeMounts:
+        - name: kong-gateway-prefix-dir
+          mountPath: /kong_prefix/
+        - name: kong-gateway-tmp
+          mountPath: /tmp
+        - name: maxmind-header
+          mountPath: /opt/kong/plugins/maxmind-header
+      containers:
+      - name: "proxy"
+        # image: kong:3.8
+        image: public.ecr.aws/x1p5h1z4/kong:3.8-maxmind-v3
+        imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          # capabilities:
+          #   drop:
+          #   - ALL
+          # readOnlyRootFilesystem: false
+          # runAsNonRoot: true
+          runAsUser: 0
+          # seccompProfile:
+          #   type: RuntimeDefault
+        env:
+        - name: KONG_REAL_IP_HEADER
+          value: "X-Forwarded-For"  
+
+        - name: KONG_PLUGINS  
+          value: "bundled,maxmind-header"   
+        - name: KONG_ADMIN_ACCESS_LOG
+          value: "/dev/stdout"
+        - name: KONG_ADMIN_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_ADMIN_GUI_ACCESS_LOG
+          value: "/dev/stdout"
+        - name: KONG_ADMIN_GUI_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_ADMIN_LISTEN
+          value: "0.0.0.0:8001, [::]:8001, 0.0.0.0:8444 http2 ssl, [::]:8444 http2 ssl"
+        - name: KONG_CLUSTER_LISTEN
+          value: "off"
+        - name: KONG_DATABASE
+          value: "off"
+        # - name: KONG_LUA_PACKAGE_PATH
+        #   value: "/opt/?.lua;/opt/?/init.lua;;"
+        - name: KONG_LUA_PACKAGE_PATH
+          value: "/usr/local/lib/luarocks/rocks-5.1/?.lua;/opt/?.lua;/opt/?/init.lua;;"
+        - name: KONG_NGINX_WORKER_PROCESSES
+          value: "2"
+        - name: KONG_PORTAL_API_ACCESS_LOG
+          value: "/dev/stdout"
+        - name: KONG_PORTAL_API_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_PORT_MAPS
+          value: "80:8000, 443:8443"
+        - name: KONG_TRUSTED_IPS
+          value: "0.0.0.0/0,::/0"
+        - name: KONG_PREFIX
+          value: "/kong_prefix/"
+        - name: KONG_PROXY_ACCESS_LOG
+          value: "/dev/stdout"
+        - name: KONG_PROXY_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_PROXY_LISTEN
+          value: "0.0.0.0:8000, [::]:8000, 0.0.0.0:8443 http2 ssl, [::]:8443 http2 ssl"
+        - name: KONG_PROXY_STREAM_ACCESS_LOG
+          value: "/dev/stdout basic"
+        - name: KONG_PROXY_STREAM_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_ROLE
+          value: "traditional"
+        - name: KONG_ROUTER_FLAVOR
+          value: "traditional"
+        - name: KONG_STATUS_ACCESS_LOG
+          value: "off"
+        - name: KONG_STATUS_ERROR_LOG
+          value: "/dev/stderr"
+        - name: KONG_STATUS_LISTEN
+          value: "0.0.0.0:8100, [::]:8100"
+        - name: KONG_STREAM_LISTEN
+          value: "off"
+        - name: KONG_NGINX_DAEMON
+          value: "off"
+        - name: KONG_LOG_LEVEL
+          value: "debug"
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - kong
+              - quit
+              - --wait=15
+        ports:
+        - name: admin
+          containerPort: 8001
+          protocol: TCP
+        - name: admin-tls
+          containerPort: 8444
+          protocol: TCP
+        - name: proxy
+          containerPort: 8000
+          protocol: TCP
+        - name: proxy-tls
+          containerPort: 8443
+          protocol: TCP
+        - name: status
+          containerPort: 8100
+          protocol: TCP
+        volumeMounts:
+          - name: kong-gateway-prefix-dir
+            mountPath: /kong_prefix/
+          - name: kong-gateway-tmp
+            mountPath: /tmp
+          - name: maxmind-header
+            mountPath: /opt/kong/plugins/maxmind-header          
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /status/ready
+            port: status
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /status
+            port: status
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources:
+          {} 
+      securityContext:
+        {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - configMap:
+            defaultMode: 420
+            name: maxmind-header
+          name: maxmind-header
+
+        - name: kong-gateway-prefix-dir
+          emptyDir:
+            sizeLimit: 256Mi
+        - name: kong-gateway-tmp
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: kong-gateway-token
+          projected:
+            sources:
+            - serviceAccountToken:
+                expirationSeconds: 3607
+                path: token
+            - configMap:
+                items:
+                - key: ca.crt
+                  path: ca.crt
+                name: kube-root-ca.crt
+            - downwardAPI:
+                items:
+                - fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.namespace
+                  path: namespace
+---
+# Source: ingress/charts/controller/templates/admission-webhook.yaml
+kind: ValidatingWebhookConfiguration
+apiVersion: admissionregistration.k8s.io/v1
+metadata:
+  name: kong-controller-validations
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURKRENDQWd5Z0F3SUJBZ0lSQU52ME1BdUMxWW1QazNDQXoxTHZMTG93RFFZSktvWklodmNOQVFFTEJRQXcKSERFYU1CZ0dBMVVFQXhNUmEyOXVaeTFoWkcxcGMzTnBiMjR0WTJFd0hoY05NalV3TVRBeU1UWXpORFV5V2hjTgpNelF4TWpNeE1UWXpORFV5V2pBY01Sb3dHQVlEVlFRREV4RnJiMjVuTFdGa2JXbHpjMmx2YmkxallUQ0NBU0l3CkRRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFOdEF6b1JiUTNUY1luSkVBakFSU3Zvb1BSdkUKSE5wa2lyS1IzVmM1dkxxS0J5ejBReHdrc05vNW1yQUM1MTJGOXdsVGppaXpIZzJRMWxZOGNUeEd1Tmo3SVNiVApzV2tkVHJJWEpWaUlLWkc1cTB6cC9sNTFBeWRGZzRkTXVFTzBVemFkOElmZmFkblR6MHNUaG5Ga2tkUjE3S1MwClZNcmN3d3ZTZGViMHI1OWdhRDJYVGlUMU1FOHZYblVScXZ1cGxvWS9iWGVCQnNKLzBhZXdVQ05FMnNLQmFZK1oKRFliLzJwYVpRaDFZVkZvcExGQ3NoS2U0TEZzVG9tL0diYWJ4K05wK29wTEtKNGpXK013NTRob3lzRFhZMjBsSQpmZmRIVWtPSmdGY1B4eVZ6NkhOWmZIWVRUS2pWVkUxTDk4L1M2V2cvaERHT1htc3h0VXc4Q2dzdFQ0TUNBd0VBCkFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2tNQjBHQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUYKQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFIL01CMEdBMVVkRGdRV0JCU2IySVdZOTJVcUhFeTZkQldudDR5MQpRQkpFK0RBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQUJ3N0NEU3psb0I5NVJzM0t1K0hsQkppcktLU1JRZGF2Cnh4ZTNUTWpveUdKWkpHNTV4NkRaZ1JqdXJpTDZzcnFIUXhOcXcxUXNIVk92dHljc1JxcTUrb1VpOFdKbS9hZ1cKMDBzS0FoY0xuMFJuNHFQdmQyWWVNREo0ZFI0OGp2T2FWNm5MNERPVGh4SDcyaFVqem1GcnFqbGhVZVpENTVIMAprZVdGeVZ1SjVkR01zNmRDQWt0YzllTEoyclNPT2xqMjArRW9XdU5ZcmF3eWJ5QytNdXk2NUFrTU9TOTB3TWt5Cmp6eU10a2pkVTVsR05CNWF1aU1TRlFPc3lzUzlzWWdWUHdXaWUvSUVkeHF4RmNqVUdkQnZMRGRyV2tyVGhPSmEKMmNtUXhBZ2h4VzhqNXMzMDMrUW9kcG1CQWNEU1ZqUWUyRnErTm83QXFQNElML0JTdWdzTkxRPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+    service:
+      name: kong-controller-validation-webhook
+      namespace: kong
+  failurePolicy: Ignore
+  matchPolicy: Equivalent
+  name: secrets.credentials.validation.ingress-controller.konghq.com
+  objectSelector:
+    matchExpressions:
+    - key: "konghq.com/credential"
+      operator: "Exists"
+    - key: "konghq.com/credential"
+      operator: "NotIn"
+      values:
+      - "konnect"
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - secrets
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURKRENDQWd5Z0F3SUJBZ0lSQU52ME1BdUMxWW1QazNDQXoxTHZMTG93RFFZSktvWklodmNOQVFFTEJRQXcKSERFYU1CZ0dBMVVFQXhNUmEyOXVaeTFoWkcxcGMzTnBiMjR0WTJFd0hoY05NalV3TVRBeU1UWXpORFV5V2hjTgpNelF4TWpNeE1UWXpORFV5V2pBY01Sb3dHQVlEVlFRREV4RnJiMjVuTFdGa2JXbHpjMmx2YmkxallUQ0NBU0l3CkRRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFOdEF6b1JiUTNUY1luSkVBakFSU3Zvb1BSdkUKSE5wa2lyS1IzVmM1dkxxS0J5ejBReHdrc05vNW1yQUM1MTJGOXdsVGppaXpIZzJRMWxZOGNUeEd1Tmo3SVNiVApzV2tkVHJJWEpWaUlLWkc1cTB6cC9sNTFBeWRGZzRkTXVFTzBVemFkOElmZmFkblR6MHNUaG5Ga2tkUjE3S1MwClZNcmN3d3ZTZGViMHI1OWdhRDJYVGlUMU1FOHZYblVScXZ1cGxvWS9iWGVCQnNKLzBhZXdVQ05FMnNLQmFZK1oKRFliLzJwYVpRaDFZVkZvcExGQ3NoS2U0TEZzVG9tL0diYWJ4K05wK29wTEtKNGpXK013NTRob3lzRFhZMjBsSQpmZmRIVWtPSmdGY1B4eVZ6NkhOWmZIWVRUS2pWVkUxTDk4L1M2V2cvaERHT1htc3h0VXc4Q2dzdFQ0TUNBd0VBCkFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2tNQjBHQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUYKQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFIL01CMEdBMVVkRGdRV0JCU2IySVdZOTJVcUhFeTZkQldudDR5MQpRQkpFK0RBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQUJ3N0NEU3psb0I5NVJzM0t1K0hsQkppcktLU1JRZGF2Cnh4ZTNUTWpveUdKWkpHNTV4NkRaZ1JqdXJpTDZzcnFIUXhOcXcxUXNIVk92dHljc1JxcTUrb1VpOFdKbS9hZ1cKMDBzS0FoY0xuMFJuNHFQdmQyWWVNREo0ZFI0OGp2T2FWNm5MNERPVGh4SDcyaFVqem1GcnFqbGhVZVpENTVIMAprZVdGeVZ1SjVkR01zNmRDQWt0YzllTEoyclNPT2xqMjArRW9XdU5ZcmF3eWJ5QytNdXk2NUFrTU9TOTB3TWt5Cmp6eU10a2pkVTVsR05CNWF1aU1TRlFPc3lzUzlzWWdWUHdXaWUvSUVkeHF4RmNqVUdkQnZMRGRyV2tyVGhPSmEKMmNtUXhBZ2h4VzhqNXMzMDMrUW9kcG1CQWNEU1ZqUWUyRnErTm83QXFQNElML0JTdWdzTkxRPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+    service:
+      name: kong-controller-validation-webhook
+      namespace: kong
+  failurePolicy: Ignore
+  matchPolicy: Equivalent
+  name: secrets.plugins.validation.ingress-controller.konghq.com
+  objectSelector:
+    matchExpressions:
+    - key: owner
+      operator: NotIn
+      values:
+      - helm
+    - key: "konghq.com/credential"
+      operator: "NotIn"
+      values:
+      - "konnect"
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - secrets
+  sideEffects: None
+- name: validations.kong.konghq.com
+  matchPolicy: Equivalent
+  objectSelector:
+    matchExpressions:
+    - key: owner
+      operator: NotIn
+      values:
+      - helm
+  failurePolicy: Ignore
+  sideEffects: None
+  admissionReviewVersions: ["v1beta1"]
+  rules:
+  - apiGroups:
+    - configuration.konghq.com
+    apiVersions:
+    - '*'
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - kongconsumers
+    - kongplugins
+    - kongclusterplugins
+    - kongingresses
+  - apiGroups:
+    - ''
+    apiVersions:
+    - 'v1'
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - services
+  - apiGroups:
+    - networking.k8s.io
+    apiVersions:
+      - 'v1'
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - ingresses
+  - apiGroups:
+    - gateway.networking.k8s.io
+    apiVersions:
+    - 'v1alpha2'
+    - 'v1beta1'
+    - 'v1'
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - gateways
+    - httproutes
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURKRENDQWd5Z0F3SUJBZ0lSQU52ME1BdUMxWW1QazNDQXoxTHZMTG93RFFZSktvWklodmNOQVFFTEJRQXcKSERFYU1CZ0dBMVVFQXhNUmEyOXVaeTFoWkcxcGMzTnBiMjR0WTJFd0hoY05NalV3TVRBeU1UWXpORFV5V2hjTgpNelF4TWpNeE1UWXpORFV5V2pBY01Sb3dHQVlEVlFRREV4RnJiMjVuTFdGa2JXbHpjMmx2YmkxallUQ0NBU0l3CkRRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFOdEF6b1JiUTNUY1luSkVBakFSU3Zvb1BSdkUKSE5wa2lyS1IzVmM1dkxxS0J5ejBReHdrc05vNW1yQUM1MTJGOXdsVGppaXpIZzJRMWxZOGNUeEd1Tmo3SVNiVApzV2tkVHJJWEpWaUlLWkc1cTB6cC9sNTFBeWRGZzRkTXVFTzBVemFkOElmZmFkblR6MHNUaG5Ga2tkUjE3S1MwClZNcmN3d3ZTZGViMHI1OWdhRDJYVGlUMU1FOHZYblVScXZ1cGxvWS9iWGVCQnNKLzBhZXdVQ05FMnNLQmFZK1oKRFliLzJwYVpRaDFZVkZvcExGQ3NoS2U0TEZzVG9tL0diYWJ4K05wK29wTEtKNGpXK013NTRob3lzRFhZMjBsSQpmZmRIVWtPSmdGY1B4eVZ6NkhOWmZIWVRUS2pWVkUxTDk4L1M2V2cvaERHT1htc3h0VXc4Q2dzdFQ0TUNBd0VBCkFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2tNQjBHQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUYKQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFIL01CMEdBMVVkRGdRV0JCU2IySVdZOTJVcUhFeTZkQldudDR5MQpRQkpFK0RBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQUJ3N0NEU3psb0I5NVJzM0t1K0hsQkppcktLU1JRZGF2Cnh4ZTNUTWpveUdKWkpHNTV4NkRaZ1JqdXJpTDZzcnFIUXhOcXcxUXNIVk92dHljc1JxcTUrb1VpOFdKbS9hZ1cKMDBzS0FoY0xuMFJuNHFQdmQyWWVNREo0ZFI0OGp2T2FWNm5MNERPVGh4SDcyaFVqem1GcnFqbGhVZVpENTVIMAprZVdGeVZ1SjVkR01zNmRDQWt0YzllTEoyclNPT2xqMjArRW9XdU5ZcmF3eWJ5QytNdXk2NUFrTU9TOTB3TWt5Cmp6eU10a2pkVTVsR05CNWF1aU1TRlFPc3lzUzlzWWdWUHdXaWUvSUVkeHF4RmNqVUdkQnZMRGRyV2tyVGhPSmEKMmNtUXhBZ2h4VzhqNXMzMDMrUW9kcG1CQWNEU1ZqUWUyRnErTm83QXFQNElML0JTdWdzTkxRPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+    service:
+      name: kong-controller-validation-webhook
+      namespace: kong

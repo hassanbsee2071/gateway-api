@@ -1,0 +1,14 @@
+gateway:
+  admin:
+    http:
+      enabled: true
+  proxy:
+    type: LoadBalancer
+    http:
+      enabled: true
+    tls:
+      enabled: true
+controller:
+  ingressController:
+    env:
+      gateway_api_controller_name: konghq.com/kic-gateway-controller-nonhttp

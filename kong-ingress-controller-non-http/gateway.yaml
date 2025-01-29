@@ -1,0 +1,33 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: kong-gateway-nonhttp
+  namespace: public-gateway
+spec:
+  gatewayClassName: kong-class-nonhttp
+  listeners:
+  - name: stream9000
+    protocol: TCP
+    port: 9000
+    allowedRoutes:
+      namespaces:
+        from: All
+
+  - name: stream9001
+    protocol: TCP
+    port: 9001
+    allowedRoutes:
+      namespaces:
+        from: All
+    # allowedRoutes:
+    #   kinds:
+    #   - kind: TCPRoute
+  # - name: stream9443
+  #   protocol: TLS
+  #   port: 9443
+  #   allowedRoutes:
+  #     namespaces:
+  #       from: All
+    # allowedRoutes:
+    #   kinds:
+    #   - kind: TCPRoute

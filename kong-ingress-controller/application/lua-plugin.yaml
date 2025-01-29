@@ -1,0 +1,54 @@
+apiVersion: v1
+data:
+  handler.lua: "local MaxMindDB = require \"resty.maxminddb\"\nlocal cjson = require
+    \"cjson\"\n\n\nlocal GeoIP2Handler = {\n  PRIORITY = 1000, -- Set the plugin priority\n
+    \ VERSION = \"1.0.0\",\n}\n\nfunction GeoIP2Handler:access(conf)\n  -- Initialize
+    the GeoIP2 database\n  local ok, err = MaxMindDB.init(conf.db_path)\n  if not
+    ok then\n    kong.log.err(\"Failed to initialize GeoIP2 database: \", err)\n    return\n
+    \ end\n\n  -- Get the client IP address\n  local client_ip = kong.client.get_forwarded_ip()
+    or kong.client.get_ip()\n  kong.log.err(\"client ip is this: \", client_ip)\n\n
+    \ -- Look up GeoIP2 data for the client IP\n  local res, err = MaxMindDB.lookup(client_ip)\n
+    \ if not res then\n    kong.log.err(\"Failed to lookup GeoIP2 data: \", err)\n
+    \   return\n  end\n  kong.log.err(\"Response is: \", cjson.encode(res))\n\n\n
+    \ -- Add headers based on the GeoIP2 data\n  if res.continent and res.continent.code
+    then\n    kong.service.request.set_header(\"X-Visitor-Continent\", res.continent.code)\n
+    \ end\n\n  if res.country and res.country.iso_code then\n    kong.service.request.set_header(\"X-Visitor-Country-Code\",
+    res.country.iso_code)\n  end\n\n  if res.country and res.country.names and res.country.names.en
+    then\n    kong.service.request.set_header(\"X-Visitor-Country-Name\", res.country.names.en)\n
+    \ end\n\n  if res.registered_country and res.registered_country.iso_code then\n
+    \   kong.service.request.set_header(\"X-Visitor-Registered-Country-Code\", res.registered_country.iso_code)\n
+    \ end\n\n  if res.registered_country and res.registered_country.names and res.registered_country.names.en
+    then\n    kong.service.request.set_header(\"X-Visitor-Registered-Country-Name\",
+    res.registered_country.names.en)\n  end\n\n  if res.subdivisions and res.subdivisions[1]
+    and res.subdivisions[1].iso_code then\n    kong.service.request.set_header(\"X-Visitor-Subdivision-Code\",
+    res.subdivisions[1].iso_code)\n  end\n\n  if res.subdivisions and res.subdivisions[1]
+    and res.subdivisions[1].names and res.subdivisions[1].names.en then\n    kong.service.request.set_header(\"X-Visitor-Subdivision-Name\",
+    res.subdivisions[1].names.en)\n  end\n\n  if res.city and res.city.names and res.city.names.en
+    then\n    kong.service.request.set_header(\"X-Visitor-City-Name\", res.city.names.en)\n
+    \   \n  end\n\n  if res.postal and res.postal.code then\n    kong.service.request.set_header(\"X-Visitor-Postal-Code\",
+    res.postal.code)\n  end\n\n  if res.location and res.location.latitude then\n
+    \   kong.service.request.set_header(\"X-Visitor-Latitude\", res.location.latitude)\n
+    \ end\n\n  if res.location and res.location.longitude then\n    kong.service.request.set_header(\"X-Visitor-Longitude\",
+    res.location.longitude)\n  end\nend\n\nreturn GeoIP2Handler\n"
+  schema.lua: |-
+    local typedefs = require "kong.db.schema.typedefs"
+
+    return {
+      name = "maxmind-header", -- Name of the plugin
+      fields = {
+        { consumer = typedefs.no_consumer }, -- This plugin does not apply to specific consumers
+        { protocols = typedefs.protocols_http }, -- This plugin works with HTTP/HTTPS protocols
+        { config = {
+            type = "record",
+            fields = {
+              { db_path = { type = "string", required = true, default = "/opt/kong/maxmind-database/GeoLite2-Country.mmdb" } },
+            },
+          },
+        },
+      },
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: maxmind-header
+  namespace: kong

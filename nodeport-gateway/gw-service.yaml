@@ -1,0 +1,64 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: k8s-gw-nodeport
+  namespace: k8s-gw-nodeport
+  annotations:
+    networking.istio.io/service-type: NodePort
+spec:
+  gatewayClassName: istio
+  listeners:
+    - name: default
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-listener
+      port: 443
+      protocol: HTTPS
+      allowedRoutes:
+        namespaces:
+          from: All
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    networking.istio.io/service-type: NodePort
+  labels:
+    gateway.istio.io/managed: istio.io-gateway-controller
+    gateway.networking.k8s.io/gateway-name: k8s-gw-nodeport
+    istio.io/gateway-name: k8s-gw-nodeport
+  name: k8s-gw-nodeport-istio
+  namespace: k8s-gw-nodeport
+  ownerReferences:
+  - apiVersion: gateway.networking.k8s.io/v1beta1
+    kind: Gateway
+    name: k8s-gw-nodeport
+    uid: 41e05bb0-0b6b-40d4-a2e8-0fec28d73440
+spec:
+  ports:
+  - appProtocol: tcp
+    name: status-port
+    nodePort: 30079
+    port: 15021
+    protocol: TCP
+    targetPort: 15021
+  - appProtocol: http
+    name: default
+    nodePort: 30080
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  - appProtocol: https
+    name: https-listener
+    nodePort: 30081
+    port: 443
+    protocol: TCP
+    targetPort: 443
+  selector:
+    gateway.networking.k8s.io/gateway-name: k8s-gw-nodeport
+  sessionAffinity: None
+  type: NodePort

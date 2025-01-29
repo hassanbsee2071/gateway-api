@@ -1,0 +1,21 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: kong-gateway-flights
+  namespace: public-gateway-http
+spec:
+  gatewayClassName: kong-class-multi
+  listeners:
+  - name: http-flights
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: "flights"
+  addresses:
+    - type: Hostname
+      value: kong-multi-flights-gateway-946097194.eu-west-1.elb.amazonaws.com

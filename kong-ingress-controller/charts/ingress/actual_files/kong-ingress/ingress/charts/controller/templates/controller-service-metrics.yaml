@@ -1,0 +1,32 @@
+---
+# Source: ingress/charts/controller/templates/controller-service-metrics.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-ingress-controller-metrics
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong-ingress"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+spec:
+  ports:
+  - name: cmetrics
+    port: 10255
+    protocol: TCP
+    targetPort: cmetrics
+  - name: status
+    port: 10254
+    protocol: TCP
+    targetPort: cstatus
+  selector:
+    app.kubernetes.io/name: controller
+    helm.sh/chart: controller-2.46.0
+    app.kubernetes.io/instance: "kong-ingress"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+    app.kubernetes.io/component: app

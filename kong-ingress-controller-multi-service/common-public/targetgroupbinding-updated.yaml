@@ -1,0 +1,11 @@
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: kong-multi-gateway-proxy
+  namespace: kong-multi
+spec:
+  targetType: instance
+  serviceRef:
+    name: kong-multi-gateway-proxy
+    port: 80 
+  targetGroupARN: arn:aws:elasticloadbalancing:eu-west-1:553937981975:targetgroup/kong-multi-public-gateway-proxy/246719e4bcb349ca

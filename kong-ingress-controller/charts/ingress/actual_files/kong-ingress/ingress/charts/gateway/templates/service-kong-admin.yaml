@@ -1,0 +1,26 @@
+---
+# Source: ingress/charts/gateway/templates/service-kong-admin.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kong-ingress-gateway-admin
+  namespace: kong
+  labels:
+    app.kubernetes.io/name: gateway
+    helm.sh/chart: gateway-2.46.0
+    app.kubernetes.io/instance: "kong-ingress"
+    app.kubernetes.io/managed-by: "Helm"
+    
+    app.kubernetes.io/version: "3.8"
+spec:
+  type: ClusterIP
+  ports:
+  - name: kong-admin-tls
+    port: 8444
+    targetPort: 8444
+    protocol: TCP
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: gateway
+    app.kubernetes.io/component: app
+    app.kubernetes.io/instance: "kong-ingress"

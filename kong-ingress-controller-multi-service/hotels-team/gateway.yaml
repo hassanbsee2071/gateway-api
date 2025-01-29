@@ -1,0 +1,24 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: kong-gateway-hotels
+  namespace: public-gateway-http
+  # annotations:
+  #   konghq.com/publish-service: kong-multi/kong-multi-hotels-gateway-proxy
+spec:
+  gatewayClassName: kong-class-multi
+  listeners:
+  - name: http-hotels
+    # hostname: "*.tajawal.io"
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: "hotels"
+  addresses:
+    - type: Hostname
+      value: kong-multi-hotels-gateway-49496522.eu-west-1.elb.amazonaws.com

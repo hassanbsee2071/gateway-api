@@ -1,0 +1,27 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nginx-tajawal
+  namespace: application
+spec:
+  hostnames:
+  - nginx.tajawal.io
+  parentRefs:
+    - name: kong-gateway-http
+      namespace: public-gateway
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /non-istio
+      backendRefs:
+        - name: echoserver-service-non-istio
+          port: 80
+
+      # filters:
+      # - type: ExtensionRef
+      #   extensionRef:
+      #     group: configuration.konghq.com
+      #     kind: KongPlugin
+      #     name: geoip2-headers

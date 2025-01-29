@@ -1,0 +1,23 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: infra-pri-hello-world
+  namespace: infra
+spec:
+  hostnames:
+  - gateway-api-pri-infra.tajawal-dev.internal
+  parentRefs:
+    - name: kong-gateway-private-common-teams
+      namespace: private-gateway-http
+      sectionName: http-private-common
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: nginx-hello-world-service
+          port: 80
+          kind: Service
+          namespace: devops

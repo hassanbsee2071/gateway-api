@@ -1,0 +1,60 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kong-gateway-ingress-common-teams
+  namespace: kong-multi
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: kong-multi-gw-ing-common-teams
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:553937981975:certificate/3f03ad80-94c7-4723-aea5-5292143947ee
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /status
+    alb.ingress.kubernetes.io/healthcheck-port: '8100'
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
+    alb.ingress.kubernetes.io/group.name: common-public
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=60
+    alb.ingress.kubernetes.io/scheme: internet-facing
+spec:
+  ingressClassName: alb
+  rules:  
+    -  http:
+        paths:
+          - path: /*
+            backend:
+              service:
+                name: kong-multi-gateway-proxy
+                port:
+                  number: 80
+            pathType: ImplementationSpecific
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kong-gateway-ingress-pri-common-teams
+  namespace: kong-multi
+  annotations:
+    alb.ingress.kubernetes.io/load-balancer-name: kong-multi-gw-ing-pri-common
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-1:553937981975:certificate/3f03ad80-94c7-4723-aea5-5292143947ee
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /status
+    alb.ingress.kubernetes.io/healthcheck-port: '8100'
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
+    alb.ingress.kubernetes.io/group.name: common-public-pri
+    alb.ingress.kubernetes.io/backend-protocol: HTTP
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=60
+    alb.ingress.kubernetes.io/scheme: internal
+spec:
+  ingressClassName: alb
+  rules:  
+    -  http:
+        paths:
+          - path: /*
+            backend:
+              service:
+                name: kong-multi-gateway-proxy
+                port:
+                  number: 80
+            pathType: ImplementationSpecific

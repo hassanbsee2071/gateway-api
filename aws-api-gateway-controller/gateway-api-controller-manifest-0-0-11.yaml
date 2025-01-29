@@ -1,0 +1,343 @@
+---
+# Source: aws-gateway-controller-chart/templates/service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/name: aws-gateway-controller-chart
+    app.kubernetes.io/instance: gateway-api-controller
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: "v0.0.11"
+    k8s-app: aws-gateway-controller-chart
+    helm.sh/chart: aws-gateway-controller-chart-v0.0.11
+  name: gateway-api-controller
+  namespace: aws-application-networking-system
+  annotations:
+---
+# Source: aws-gateway-controller-chart/templates/cluster-role-controller.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: gateway-api-controller-aws-gateway-controller-chart
+  labels:
+
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - endpoints/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - patch
+  - update
+  - get
+  - list
+  - watch
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - delete
+  - patch
+  - update
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - services/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - services/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gateways
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gateways/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gateways/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - httproutes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - httproutes/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - httproutes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - multicluster.x-k8s.io
+  resources:
+  - serviceexports
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - multicluster.x-k8s.io
+  resources:
+  - serviceexports/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - multicluster.x-k8s.io
+  resources:
+  - serviceexports/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - multicluster.x-k8s.io
+  resources:
+  - serviceimports
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - multicluster.x-k8s.io
+  resources:
+  - serviceimports/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - multicluster.x-k8s.io
+  resources:
+  - serviceimports/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+# Source: aws-gateway-controller-chart/templates/cluster-role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+
+kind: ClusterRoleBinding
+metadata:
+  name: gateway-api-controller-aws-gateway-controller-chart
+roleRef:
+  kind: ClusterRole
+
+  apiGroup: rbac.authorization.k8s.io
+  name: gateway-api-controller-aws-gateway-controller-chart
+subjects:
+- kind: ServiceAccount
+  name: gateway-api-controller
+  namespace: aws-application-networking-system
+---
+# Source: aws-gateway-controller-chart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-api-controller-aws-gateway-controller-chart
+  namespace: aws-application-networking-system
+  labels:
+    app.kubernetes.io/name: aws-gateway-controller-chart
+    app.kubernetes.io/instance: gateway-api-controller
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: "v0.0.11"
+    k8s-app: aws-gateway-controller-chart
+    helm.sh/chart: aws-gateway-controller-chart-v0.0.11
+    control-plane: controller
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: aws-gateway-controller-chart
+      app.kubernetes.io/instance: gateway-api-controller
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: "manager"
+      labels:
+        app.kubernetes.io/name: aws-gateway-controller-chart
+        app.kubernetes.io/instance: gateway-api-controller
+        app.kubernetes.io/managed-by: Helm
+        k8s-app: aws-gateway-controller-chart
+        control-plane: "gateway-api-controller"
+    spec:
+      serviceAccountName: gateway-api-controller
+      containers:
+      - command:
+        - /manager
+        args:
+        - --leader-elect
+        image: public.ecr.aws/aws-application-networking-k8s/aws-gateway-controller:v0.0.11
+        imagePullPolicy: IfNotPresent
+        name: manager
+        ports:
+          - name: http
+            containerPort: 8080
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
+      terminationGracePeriodSeconds: 10
+      nodeSelector: 
+        kubernetes.io/os: linux

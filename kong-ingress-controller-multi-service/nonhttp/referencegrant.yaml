@@ -1,0 +1,14 @@
+kind: ReferenceGrant
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: infra-devops-cross-namespace-nonhttp
+  namespace: devops
+spec:
+  from: 
+    - group: gateway.networking.k8s.io
+      kind: TCPRoute
+      namespace: infra
+  to:
+    - group: ""
+      kind: Service
+      # name: ""  # This could be left empty to allow ANY service in the namespace.

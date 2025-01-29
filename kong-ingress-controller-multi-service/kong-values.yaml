@@ -1,0 +1,78 @@
+gateway:
+  admin:
+    http:
+      enabled: true
+  proxy:
+    type: NodePort
+    http:
+      enabled: true
+    tls:
+      enabled: false ## we are not terminating TLS at Gateway, TLS will be terminated at Load Balancer. No need to enable it ###
+  # stream:
+  #   - containerPort: 9000
+  #     servicePort: 9000
+  #     protocol: TCP
+  #   - containerPort: 9001
+  #     servicePort: 9001
+  #     protocol: TCP
+  #   - containerPort: 9002
+  #     servicePort: 9002
+  #     protocol: UDP
+
+controller:
+  ingressController:
+    enabled: true
+    env:
+      gateway_api_controller_name: konghq.com/kic-gateway-controller-multi
+      ingress_class: kong-multi
+      feature_gates: GatewayAlpha=true
+      log_level: debug
+deployment:
+  kong:
+    enabled: true
+
+# env:
+#   database: "off"
+#   stream_listen: "0.0.0.0:9000, 0.0.0.0:9001,  0.0.0.0:9002"
+#   real_ip_header: "X-Forwarded-For"
+#   trusted_ips: "0.0.0.0/0,::/0" 
+#   log_level: "debug"
+
+# status:
+#   enabled: true
+#   http:
+#     enabled: true
+#     containerPort: 8100
+
+# containerSecurityContext:
+#   readOnlyRootFilesystem: false
+#   allowPrivilegeEscalation: false
+#   runAsUser: 0
+#   runAsNonRoot: false
+
+# env:
+#   admin_gui_url: http://manager.example.com
+#   admin_gui_api_url: http://admin.example.com
+# manager:
+#  enabled: true
+#  http:
+#    enabled: true
+#  tls:
+#    enabled: false
+    
+#  ingress:
+#    enabled: true
+#    hostname: manager.example.com
+#    path: /
+#    pathType: Prefix
+#    ingressClassName: alb
+#    annotations:
+#      alb.ingress.kubernetes.io/load-balancer-name: kong-alb-private
+#      alb.ingress.kubernetes.io/group.name: demo.kong-alb-private
+#      alb.ingress.kubernetes.io/target-type: instance
+#      alb.ingress.kubernetes.io/scheme: internal
+#      alb.ingress.kubernetes.io/healthcheck-path: /
+#      alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+
+
+

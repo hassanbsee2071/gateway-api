@@ -1,0 +1,36 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: geoip2-headers
+  annotations:
+    kubernetes.io/ingress.class: kong-http
+  labels:
+    global: "true"
+config: 
+  db_path: "/opt/kong/maxmind-database/GeoLite2-Country.mmdb"
+plugin: maxmind-header
+
+
+### this is not working as class does not match ###
+# apiVersion: configuration.konghq.com/v1
+# kind: KongClusterPlugin
+# metadata:
+#   name: geoip2-headers
+#   annotations:
+#     kubernetes.io/ingress.class: kong-http-lolo
+#   labels:
+#     global: "true"
+# config:
+# plugin: maxmind-header
+
+
+
+## this does not work #####
+# apiVersion: configuration.konghq.com/v1
+# kind: KongClusterPlugin
+# metadata:
+#   name: geoip2-headers
+#   labels:
+#     global: "true"
+# config: {}
+# plugin: maxmind-header

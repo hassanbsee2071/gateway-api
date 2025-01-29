@@ -1,0 +1,14 @@
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: syed-nginx
+  namespace: syed
+spec:
+  nodeSelector:
+    matchLabels:
+      karpenter.sh/nodepool: tajawal-dev-eks-node-mixed-spot-default-nodepool
+  targetType: instance
+  serviceRef:
+    name: nginx-hello-world-service
+    port: 80
+  targetGroupARN: arn:aws:elasticloadbalancing:eu-west-1:797036517683:targetgroup/syed-nginx/52d96b69f8774732

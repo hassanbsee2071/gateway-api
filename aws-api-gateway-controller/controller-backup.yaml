@@ -1,0 +1,638 @@
+---
+# Source: aws-gateway-controller-chart/templates/service-account.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/name: aws-gateway-controller-chart
+    app.kubernetes.io/instance: gateway-api-controller
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: "v1.1.0"
+    k8s-app: aws-gateway-controller-chart
+    helm.sh/chart: aws-gateway-controller-chart-v1.1.0
+  name: gateway-api-controller
+  namespace: aws-application-networking-system
+  annotations:
+---
+# Source: aws-gateway-controller-chart/templates/webhook.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: webhook-cert
+  namespace: aws-application-networking-system
+type: kubernetes.io/tls
+data:
+  ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUROakNDQWg2Z0F3SUJBZ0lSQU5vRm8vcG94enI4VVRLMysvb0JjQ2d3RFFZSktvWklodmNOQVFFTEJRQXcKSkRFaU1DQUdBMVVFQXhNWllYZHpMV2RoZEdWM1lYa3RZMjl1ZEhKdmJHeGxjaTFqWVRBZ0Z3MHlOREV5TWpZeApNakV3TWpkYUdBOHlNVEkwTVRJd01qRXlNVEF5TjFvd0pERWlNQ0FHQTFVRUF4TVpZWGR6TFdkaGRHVjNZWGt0ClkyOXVkSEp2Ykd4bGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFNeEcKMmwxQ1BhckdKbzBjZHVWVDNsd3BjN3NucExuMkpjTzdrcS9SYnFEUmJoQ282MlFKVHcxRS9UV0RCUlRqNEJKZgpVZHQwR1RSeWNLc2R2THA0R1JTWTZWRm56c2ZVNjFKcjg0Q0o2SHNTWUR0a1hXR1M1OFNRdFZYU0xtQmp5TDdxCjdDRGZQbjNDNVIzTFh3bE1RaC94aENjRHc2NnNyN3BsNGNvTHJqVlpQNDRvcFp3OEhPTzVwZW1nWHUvaTFKeE0KVFZ1dVIrZDRCa1M0OG5kemdKR210aXh5bERxQ3JyRHFBVmR5S3ZTL3BWNDJmb05RcVdVa01yekx3S3Q1MWNRbgpVVjhkVGdYWlZUNnQxR0Z4YXRibnVOSzVGdi83V3FONEg0MzdNRDdaMDNKM2Z3L1N5dG9VR25Xa21DRU1Kbkp5CjRPZnVFTWVwa2I5M2laMEVsaWNDQXdFQUFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2tNQjBHQTFVZEpRUVcKTUJRR0NDc0dBUVVGQndNQkJnZ3JCZ0VGQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFIL01CMEdBMVVkRGdRVwpCQlRUSmNPZVFaMDhNQXZHU3ZQakIyYTVkK0VuN3pBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQWR3eFl1WEp2CmJTc21GbGMwVUhaWVZ1d1J5UUdlSkVjUUkrT29sbHRrNDBPaHJiRVhIbXlGUGgvS0c2OTZvUFpNU0tuVFhxM0gKUk8vTEFUZDlJQzFWN2NhN2x6YWp6UlFtMUZkRUZXY3pXbmxUQUpLekI0cnZKUnB3MitSanE4bDZuaFFxZXM4egpEdVFVbWtJeCtDYmp1eUNsYTFwQW5UTDBmOGtpMStNMm82T2ErSkkrcExDV3pWbXVxWjQ2bSsrNVh4ZzlTWldCCkxmZDZCaHhoY1NMSEJEa0RQREtNMHZYTlRJbG1IeHFMb0ZRcVBTQ0tCbVVsV3hzWDZ6MHY3eHB1a3psVjB2cjgKbGNqVEh3eFdOV3VoY1dDMEtHaXNnUEpIZHFMTXY4aTVXaVY5eXRTbnIxMkhtalBlZlhmODNrSUpZQlhQVEZJMgp6UTZ6Q243c2tOZ3VuQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUQyekNDQXNPZ0F3SUJBZ0lSQUorZEFtU0FGeFQyaUdobHpYaSsvWFV3RFFZSktvWklodmNOQVFFTEJRQXcKSkRFaU1DQUdBMVVFQXhNWllYZHpMV2RoZEdWM1lYa3RZMjl1ZEhKdmJHeGxjaTFqWVRBZ0Z3MHlOREV5TWpZeApNakV3TWpkYUdBOHlNVEkwTVRJd01qRXlNVEF5TjFvd1FERStNRHdHQTFVRUF4TTFkMlZpYUc5dmF5MXpaWEoyCmFXTmxMbUYzY3kxaGNIQnNhV05oZEdsdmJpMXVaWFIzYjNKcmFXNW5MWE41YzNSbGJTNXpkbU13Z2dFaU1BMEcKQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUURpTmhnQzJuSUhOMkIzV2FYM21hRlNCYzlhMFlxdAoxUlpjNHdveHBXTzdPMzNZSThmcUpSNS9SaXF4d1JHY0E2QU1rK2ZSc3gzTEVDL2xHYTBhdHE1S05xOFFUYy9LClUvRHRnczFUNGphbUZTSW02SGVKNXJ1Z0txYmd1VElFN2FMc3JhWkFmZlVoYTNudE5BcjVSamF1UzY0aUg4UE0KcURQSk9qWDI2SWlHRnUwcSs0VmQ4ZTE1c29CQ1Q0UEo3b0kzb2t2RFU1YTBiaEJ1MGpReVlsWlp6ZGFqNWFsVApVWksvb1ZQS0lxblZhcWZLY1R2SE5EeUkxdVFsM01SVGFHbmxPaDJGRFFVK2ZKb0NmU0c0eEhJRENqamp5cDZ6CktLUjRHWlJZditQd2RuQmhkSUxHTHRDTjJYVGROTG5FN1Y1WkdVcGZ0aTlYdm1lMTErRWxFR2pkQWdNQkFBR2oKZ2Vrd2dlWXdEZ1lEVlIwUEFRSC9CQVFEQWdXZ01CMEdBMVVkSlFRV01CUUdDQ3NHQVFVRkJ3TUJCZ2dyQmdFRgpCUWNEQWpBTUJnTlZIUk1CQWY4RUFqQUFNQjhHQTFVZEl3UVlNQmFBRk5NbHc1NUJuVHd3QzhaSzgrTUhacmwzCjRTZnZNSUdGQmdOVkhSRUVmakI4Z2pWM1pXSm9iMjlyTFhObGNuWnBZMlV1WVhkekxXRndjR3hwWTJGMGFXOXUKTFc1bGRIZHZjbXRwYm1jdGMzbHpkR1Z0TG5OMlk0SkRkMlZpYUc5dmF5MXpaWEoyYVdObExtRjNjeTFoY0hCcwphV05oZEdsdmJpMXVaWFIzYjNKcmFXNW5MWE41YzNSbGJTNXpkbU11WTJ4MWMzUmxjaTVzYjJOaGJEQU5CZ2txCmhraUc5dzBCQVFzRkFBT0NBUUVBQlFjTEFvMDFkOGMxYWNWY3dKK3VFMkVLVHk3UzhlTjFMQWZPU0d4bVRnV0YKT2tnbnBXVVBtOWYyVWdkNERGMGtoYkVJNVU0cXdQZjBRVzZLdFBZYk1ESkJobkV6NDBRMU9KN29lSHNWUEV1agplWTJ6ZjJtQ0JZdWtCMDA2NUpJcjdpcjU3b2ZDMG5LUWt0b1NHM3lpWjZyeW9MTzVyOXJ4VlFhaXVwa0M2TnYwCnY4YzRxczIrM0E5OGEwV09mYW5SOTkwRDJYdkNIdDZJUE1xTkRnc1lFUGJoRlpMQWZuM3RPSFFHOGI4bnp5REoKdXMvUnRBU0R3aXB1WkU0QlBYb0hvSVZ3eEZHVGRiUzZodjFscHNDbmVCQ2xNbTQ5MGw5RWdjRnN1WmNVVENISQpDVXRpbUY1NDZYZ21RNm5GbUdxSEc2OUh1dEdzMFcyc3hJRlltU2VNVHc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+  tls.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcFFJQkFBS0NBUUVBNGpZWUF0cHlCemRnZDFtbDk1bWhVZ1hQV3RHS3JkVVdYT01LTWFWanV6dDkyQ1BICjZpVWVmMFlxc2NFUm5BT2dESlBuMGJNZHl4QXY1Um10R3JhdVNqYXZFRTNQeWxQdzdZTE5VK0kycGhVaUp1aDMKaWVhN29DcW00TGt5Qk8yaTdLMm1RSDMxSVd0NTdUUUsrVVkycmt1dUloL0R6S2d6eVRvMTl1aUloaGJ0S3Z1RgpYZkh0ZWJLQVFrK0R5ZTZDTjZKTHcxT1d0RzRRYnRJME1tSldXYzNXbytXcFUxR1N2NkZUeWlLcDFXcW55bkU3Cnh6UThpTmJrSmR6RVUyaHA1VG9kaFEwRlBueWFBbjBodU1SeUF3bzQ0OHFlc3lpa2VCbVVXTC9qOEhad1lYU0MKeGk3UWpkbDAzVFM1eE8xZVdSbEtYN1l2Vjc1bnRkZmhKUkJvM1FJREFRQUJBb0lCQVFEZXRGVFZVa3lhMENrWAp0MW5QTngvOFNaNElFbTNPa0EveEtORGJhYkdUSHBIWm5maHVpMWJJQk1ONXR0Tm9YcVZPWExzSTE2ZklTRXB1CjZlVmpmR0NBemU5eVJMa0N2N3RkaWI0dURIS3k5ZkZtanMxSkpiQ29rZlV6SHdDZ20zZ2dQU0dGTXJ5SHgzRUYKVjR4S041Y1Q1NHdyS2t5eEN4UFkwNGRYYXowbGpFaVM4SkxiL3pPcFpudmZLa1UrUU5NYVFqWnMxQU9xS3dQTwpmMlZXRXdZVW1kVTlxT0hIdE4ycnprL3lBN2o4R2crSXpRZVpNWkVTK1BNVFZvUzVOWFpVcU9mOGgyOEZHMXpaCmxXbGZxeW9qWk9uWlFVNysvZC83eVNTNGxGdlgwcTB2SHNLb3BpelJuT2RndVkrZ0tjdDhKK3R1a3JaMDFjbDgKbXNWVWI2cWhBb0dCQVBtQ0JmUVQyK2QzNVRhd2Y0SE53YlBrcHdzTTJNM3F2dmkyZWdXbUlERTJVOVN3dVJHdQorT0lIWktrc0tPK0xGbXYrbElnbjZnUktJd0RxR09sR0ZmNW1TT2UwZk95TmxLSTkwT3N3ZWxpWVdNZG9CVzhQCmhPUnMwdjJRVXRuNTBKUk9yUERQOXJSbnNrTnhwcTBOQndtNGVZZXdmVXRYUnJGZ2F0aER3YUExQW9HQkFPZ1kKNURhdlNEQStxblUwS3BLblBQb1ZaY1JYVXhIVkhMbHE4Qkx4Vm96ak16K084eGc3bWI1RVJ1dUUrZkVqK2lEbwpaRUNwUTVtN3NHcHJlR2ZYenhBbG91T2pUMEVOWkVhc2syazlRUTdDNHhEOUEzVkplMnNwRUpJYUpQWENYQVpTCmZqMXdzZDl6dGZtSlcwVUlkRXZaNEZveGNBZVhCV085a0t3KzBZc0pBb0dCQU56RG1nYnJaMkIzNmp5b2tEbEcKMkFRVzVXSlduS0lkK1psUXc4aXB3OFFuWUtkSk1vY2QvU0xwRGJ6TjBPNmFiMTFncFFXUDQzU21NRENIOFVDOQovWW5aOE5uckRibTBUL1g1b2hmbkRlbkQ2cEdOVFhtR0RyeWFPVm1YMEdjRHJmVDdZL095M29PaldNeHFDK01FCkt0MEQ5NndDa2VvT3NBTVQzNVc0NWVLZEFvR0JBSktUQmF5elRYZUtXOFBneWZJTHc2cDcwT1VKOE9BV0lpbkcKcXc2TGN3bE9ncExsQ0FpSnV6STVsRUF3bmxmM1RJTnp2N3hHS1BieFhSd1grdFk1cC82ZWhod1VpbnllcEhFdAprM3Ftd0dzK0VJQXVDUDBOQnZCSjRya2g0YTJDclBNaExiQkhkMDJTbVoyWmJSWlBuSUk2ZWtEN2I3Q2JZei8xCisyT0wySEZoQW9HQVg4VDMvdkF6T3YzTy9aZlkvM3UreWlHNWNhd2tpalZSMjRlTUo3NUVMUExydjBBUWZwSCsKaTFGY1oya0RHU3E4QW4rSFFuck5sNVBoM1NrUHVMU3hGZ3IyWFdRYVFPUmJCbk0rYzN5Q0F6Y3c4d2JQd0pBYwpBNnJTRHF0aVk3Vi9sb2N4cnJXaDIrMFdtYjNneDNMalFzQTdJT01adXVCMi9JTWFtT1l1RjNZPQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+---
+# Source: aws-gateway-controller-chart/templates/cluster-role-controller.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: gateway-api-controller-aws-gateway-controller-chart
+  labels:
+
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - endpoints/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+    - "discovery.k8s.io"
+  resources:
+    - endpointslices
+  verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+- apiGroups:
+    - "discovery.k8s.io"
+  resources:
+    - endpointslices/status
+  verbs:
+    - get
+    - patch
+    - update
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - patch
+  - update
+  - get
+  - list
+  - watch
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - delete
+  - patch
+  - update
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - services/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - services/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gateways
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gateways/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gateways/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - httproutes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - httproutes/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - httproutes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - accesslogpolicies/status
+  verbs:
+    - get
+    - patch
+    - update
+- apiGroups:
+    - gateway.networking.k8s.io
+  resources:
+    - tlsroutes
+  verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+- apiGroups:
+    - gateway.networking.k8s.io
+  resources:
+    - tlsroutes/finalizers
+  verbs:
+    - update
+- apiGroups:
+    - gateway.networking.k8s.io
+  resources:
+    - tlsroutes/status
+  verbs:
+    - get
+    - patch
+    - update
+- apiGroups:
+    - gateway.networking.k8s.io
+  resources:
+    - grpcroutes
+  verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+- apiGroups:
+    - gateway.networking.k8s.io
+  resources:
+    - grpcroutes/finalizers
+  verbs:
+    - update
+- apiGroups:
+    - gateway.networking.k8s.io
+  resources:
+    - grpcroutes/status
+  verbs:
+    - get
+    - patch
+    - update
+- apiGroups:
+  - application-networking.k8s.aws
+  resources:
+  - serviceexports
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - application-networking.k8s.aws
+  resources:
+  - serviceexports/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - application-networking.k8s.aws
+  resources:
+  - serviceexports/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - application-networking.k8s.aws
+  resources:
+  - serviceimports
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - application-networking.k8s.aws
+  resources:
+  - serviceimports/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - application-networking.k8s.aws
+  resources:
+  - serviceimports/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - externaldns.k8s.io
+  resources:
+  - dnsendpoints
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - targetgrouppolicies
+  verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - targetgrouppolicies/finalizers
+  verbs:
+    - update
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - targetgrouppolicies/status
+  verbs:
+    - get
+    - patch
+    - update
+
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - vpcassociationpolicies
+  verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - vpcassociationpolicies/finalizers
+  verbs:
+    - update
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - vpcassociationpolicies/status
+  verbs:
+    - get
+    - patch
+    - update
+
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - accesslogpolicies
+  verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - accesslogpolicies/finalizers
+  verbs:
+    - update
+
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - iamauthpolicies
+  verbs:
+    - create
+    - delete
+    - get
+    - list
+    - patch
+    - update
+    - watch
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - iamauthpolicies/finalizers
+  verbs:
+    - update
+- apiGroups:
+    - application-networking.k8s.aws
+  resources:
+    - iamauthpolicies/status
+  verbs:
+    - get
+    - patch
+    - update
+---
+# Source: aws-gateway-controller-chart/templates/cluster-role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+
+kind: ClusterRoleBinding
+metadata:
+  name: gateway-api-controller-aws-gateway-controller-chart
+roleRef:
+  kind: ClusterRole
+
+  apiGroup: rbac.authorization.k8s.io
+  name: gateway-api-controller-aws-gateway-controller-chart
+subjects:
+- kind: ServiceAccount
+  name: gateway-api-controller
+  namespace: aws-application-networking-system
+---
+# Source: aws-gateway-controller-chart/templates/webhook.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: webhook-service
+  namespace: aws-application-networking-system
+spec:
+  ports:
+    - port: 443
+      targetPort: webhook-server
+  selector:
+    control-plane: gateway-api-controller
+---
+# Source: aws-gateway-controller-chart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-api-controller-aws-gateway-controller-chart
+  namespace: aws-application-networking-system
+  labels:
+    app.kubernetes.io/name: aws-gateway-controller-chart
+    app.kubernetes.io/instance: gateway-api-controller
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: "v1.1.0"
+    k8s-app: aws-gateway-controller-chart
+    helm.sh/chart: aws-gateway-controller-chart-v1.1.0
+    control-plane: controller
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: aws-gateway-controller-chart
+      app.kubernetes.io/instance: gateway-api-controller
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: "manager"
+      labels:
+        app.kubernetes.io/name: aws-gateway-controller-chart
+        app.kubernetes.io/instance: gateway-api-controller
+        app.kubernetes.io/managed-by: Helm
+        k8s-app: aws-gateway-controller-chart
+        control-plane: "gateway-api-controller"
+    spec:
+      serviceAccountName: gateway-api-controller
+      securityContext:
+        runAsNonRoot: true
+      containers:
+      - command:
+        - /manager
+        args:
+        - --leader-elect
+        image: public.ecr.aws/aws-application-networking-k8s/aws-gateway-controller:v1.1.0
+        imagePullPolicy: IfNotPresent
+        name: manager
+        ports:
+          - name: http
+            containerPort: 8080
+          - name: webhook-server
+            containerPort: 9443
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        # livenessProbe:
+        #   httpGet:
+        #     path: /healthz
+        #     port: 8081
+        #   initialDelaySeconds: 15
+        #   periodSeconds: 20
+        # readinessProbe:
+        #   httpGet:
+        #     path: /readyz
+        #     port: 8081
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+        volumeMounts:
+          - mountPath: /etc/webhook-cert
+            name: webhook-cert
+            readOnly: true
+        env:
+          - name: REGION
+            value: eu-west-1
+          - name: AWS_ACCOUNT_ID
+            value: "553937981975"
+          - name: CLUSTER_VPC_ID
+            value: vpc-01f3dd6e4b57c29fd 
+          - name: CLUSTER_NAME
+            value: tajawal-poc
+          - name: LATTICE_ENDPOINT
+            value: 
+          - name: DEFAULT_SERVICE_NETWORK
+            value: 
+          - name: LOG_LEVEL
+            value: "debug"
+          - name: WEBHOOK_ENABLED
+            value: "true"
+          - name: DISABLE_TAGGING_SERVICE_API
+            value: "false"
+          - name: ROUTE_MAX_CONCURRENT_RECONCILES
+            value: 
+
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - name: webhook-cert
+          secret:
+            defaultMode: 420
+            secretName: webhook-cert
+      nodeSelector: 
+        kubernetes.io/os: linux
+---
+# Source: aws-gateway-controller-chart/templates/webhook.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: aws-appnet-gwc-mutating-webhook
+webhooks:
+  - admissionReviewVersions:
+      - v1
+    clientConfig:
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUROakNDQWg2Z0F3SUJBZ0lSQU5vRm8vcG94enI4VVRLMysvb0JjQ2d3RFFZSktvWklodmNOQVFFTEJRQXcKSkRFaU1DQUdBMVVFQXhNWllYZHpMV2RoZEdWM1lYa3RZMjl1ZEhKdmJHeGxjaTFqWVRBZ0Z3MHlOREV5TWpZeApNakV3TWpkYUdBOHlNVEkwTVRJd01qRXlNVEF5TjFvd0pERWlNQ0FHQTFVRUF4TVpZWGR6TFdkaGRHVjNZWGt0ClkyOXVkSEp2Ykd4bGNpMWpZVENDQVNJd0RRWUpLb1pJaHZjTkFRRUJCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFNeEcKMmwxQ1BhckdKbzBjZHVWVDNsd3BjN3NucExuMkpjTzdrcS9SYnFEUmJoQ282MlFKVHcxRS9UV0RCUlRqNEJKZgpVZHQwR1RSeWNLc2R2THA0R1JTWTZWRm56c2ZVNjFKcjg0Q0o2SHNTWUR0a1hXR1M1OFNRdFZYU0xtQmp5TDdxCjdDRGZQbjNDNVIzTFh3bE1RaC94aENjRHc2NnNyN3BsNGNvTHJqVlpQNDRvcFp3OEhPTzVwZW1nWHUvaTFKeE0KVFZ1dVIrZDRCa1M0OG5kemdKR210aXh5bERxQ3JyRHFBVmR5S3ZTL3BWNDJmb05RcVdVa01yekx3S3Q1MWNRbgpVVjhkVGdYWlZUNnQxR0Z4YXRibnVOSzVGdi83V3FONEg0MzdNRDdaMDNKM2Z3L1N5dG9VR25Xa21DRU1Kbkp5CjRPZnVFTWVwa2I5M2laMEVsaWNDQXdFQUFhTmhNRjh3RGdZRFZSMFBBUUgvQkFRREFnS2tNQjBHQTFVZEpRUVcKTUJRR0NDc0dBUVVGQndNQkJnZ3JCZ0VGQlFjREFqQVBCZ05WSFJNQkFmOEVCVEFEQVFIL01CMEdBMVVkRGdRVwpCQlRUSmNPZVFaMDhNQXZHU3ZQakIyYTVkK0VuN3pBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQWR3eFl1WEp2CmJTc21GbGMwVUhaWVZ1d1J5UUdlSkVjUUkrT29sbHRrNDBPaHJiRVhIbXlGUGgvS0c2OTZvUFpNU0tuVFhxM0gKUk8vTEFUZDlJQzFWN2NhN2x6YWp6UlFtMUZkRUZXY3pXbmxUQUpLekI0cnZKUnB3MitSanE4bDZuaFFxZXM4egpEdVFVbWtJeCtDYmp1eUNsYTFwQW5UTDBmOGtpMStNMm82T2ErSkkrcExDV3pWbXVxWjQ2bSsrNVh4ZzlTWldCCkxmZDZCaHhoY1NMSEJEa0RQREtNMHZYTlRJbG1IeHFMb0ZRcVBTQ0tCbVVsV3hzWDZ6MHY3eHB1a3psVjB2cjgKbGNqVEh3eFdOV3VoY1dDMEtHaXNnUEpIZHFMTXY4aTVXaVY5eXRTbnIxMkhtalBlZlhmODNrSUpZQlhQVEZJMgp6UTZ6Q243c2tOZ3VuQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+      service:
+        name: webhook-service
+        namespace: aws-application-networking-system
+        path: /mutate-pod
+    failurePolicy: Fail
+    name: mpod.gwc.k8s.aws
+    rules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+        resources:
+          - pods
+    sideEffects: None
+    namespaceSelector:
+      matchExpressions:
+        - key: application-networking.k8s.aws/pod-readiness-gate-inject
+          operator: In
+          values:
+            - enabled
+    objectSelector:
+      matchExpressions:
+        - key: app.kubernetes.io/name
+          operator: NotIn
+          values:
+            - gateway-api-controller

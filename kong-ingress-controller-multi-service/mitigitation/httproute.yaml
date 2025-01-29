@@ -1,0 +1,25 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: frontend-pri-hello-world-testing
+  namespace: frontend
+spec:
+  hostnames:
+  - gateway-api-pri-frontend.tajawal-dev.internal
+  # - gateway-api-pri-frontend-testing.tajawal.io
+  parentRefs:
+    - name: kong-gateway-private-common-teams
+      namespace: private-gateway-http
+      sectionName: http-private-common
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: nginx-hello-world-service-private
+          port: 80
+
+
+

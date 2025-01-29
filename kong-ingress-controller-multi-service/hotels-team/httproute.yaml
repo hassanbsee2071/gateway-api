@@ -1,0 +1,214 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: hotels-hello-world
+  namespace: hotels
+spec:
+  hostnames:
+  - gateway-api-hotels.tajawal.io
+  parentRefs:
+    - name: kong-gateway-hotels
+      namespace: public-gateway-http
+      sectionName: http-hotels
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: nginx-hello-world-service
+          port: 80
+
+
+
+# ---
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: hotels-hello-world-v2
+#   namespace: hotels
+#   annotations:
+#     konghq.com/https-redirect-status-code: "301"
+#   #   konghq.com/strip-path: 'true'
+# spec:
+#   hostnames:
+#   - gateway-api-hotels.tajawal.io
+#   parentRefs:
+#     - name: kong-gateway-hotels
+#       namespace: public-gateway
+#       sectionName: http-hotels
+#   rules:
+#     - matches:
+#         - path:
+#             type: PathPrefix
+#             value: /
+#       filters:
+#         - type: RequestRedirect
+#           requestRedirect:
+#             scheme: https
+#             hostname: gateway-api-hotels.tajawal.io
+#             path:
+#               type: ReplaceFullPath
+#               replaceFullPath: /
+#             statusCode: 301
+#             port: 443
+
+
+
+#########
+# ---
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: hotels-hello-world-http
+#   namespace: hotels
+# spec:
+#   hostnames:
+#     - gateway-api-hotels.tajawal.io
+#   parentRefs:
+#     - name: kong-gateway-hotels
+#       namespace: public-gateway
+#       sectionName: http-hotels
+#   rules:
+#     - matches:
+#         - path:
+#             type: PathPrefix
+#             value: /
+#       filters:
+#         - type: RequestRedirect
+#           requestRedirect:
+#             scheme: https
+#             hostname: gateway-api-hotels.tajawal.io
+#             path:
+#               type: ReplaceFullPath
+#               replaceFullPath: /
+#             statusCode: 301
+#             port: 443
+
+# ---
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: hotels-hello-world-https
+#   namespace: hotels
+# spec:
+#   hostnames:
+#     - gateway-api-hotels.tajawal.io
+#   parentRefs:
+#     - name: kong-gateway-hotels
+#       namespace: public-gateway
+#       sectionName: https-hotels
+#   rules:
+#     - matches:
+#         - path:
+#             type: PathPrefix
+#             value: /
+#       backendRefs:
+#         - name: nginx-hello-world-service
+#           port: 80
+
+
+ 
+
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: hotels-http-redirect
+#   namespace: hotels
+#   annotations:
+#     konghq.com/https-redirect-status-code: "301"
+# spec:
+#   hostnames:
+#   - gateway-api-hotels.tajawal.io
+#   parentRefs:
+#     - name: kong-gateway-hotels
+#       namespace: public-gateway
+#       sectionName: http-hotels
+#   rules:
+#     - matches:
+#         - path:
+#             type: PathPrefix
+#             value: /
+#           # Assign a higher priority for redirection
+#           priority: 100
+#       filters:
+#         - type: RequestRedirect
+#           requestRedirect:
+#             scheme: https
+#             hostname: gateway-api-hotels.tajawal.io
+#             path:
+#               type: ReplaceFullPath
+#               replaceFullPath: /
+#             statusCode: 301
+#             port: 443
+
+# ---
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: hotels-https-backend
+#   namespace: hotels
+# spec:
+#   hostnames:
+#   - gateway-api-hotels.tajawal.io
+#   parentRefs:
+#     - name: kong-gateway-hotels
+#       namespace: public-gateway
+#       sectionName: http-hotels
+#   rules:
+#     - matches:
+#         - path:
+#             type: PathPrefix
+#             value: /
+#       backendRefs:
+#         - name: nginx-hello-world-service
+#           port: 80
+
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: hotels-http-redirect
+#   namespace: hotels
+#   annotations:
+#     konghq.com/https-redirect-status-code: "301"
+# spec:
+#   hostnames:
+#   - gateway-api-hotels.tajawal.io
+#   parentRefs:
+#     - name: kong-gateway-hotels
+#       namespace: public-gateway
+#       sectionName: http-hotels
+#   rules:
+#     - matches:
+#         - path:
+#             type: PathPrefix
+#             value: / # Matches all traffic
+#       filters:
+#         - type: RequestRedirect
+#           requestRedirect:
+#             scheme: https
+#             hostname: gateway-api-hotels.tajawal.io
+#             statusCode: 301
+#             port: 443
+# ---
+# apiVersion: gateway.networking.k8s.io/v1
+# kind: HTTPRoute
+# metadata:
+#   name: hotels-https-backend
+#   namespace: hotels
+# spec:
+#   hostnames:
+#   - gateway-api-hotels.tajawal.io
+#   parentRefs:
+#     - name: kong-gateway-hotels
+#       namespace: public-gateway
+#       sectionName: http-hotels
+#   rules:
+#     - matches:
+#         - path:
+#             type: PathPrefix
+#             value: / # Matches all traffic
+#       backendRefs:
+#         - name: nginx-hello-world-service
+#           port: 80

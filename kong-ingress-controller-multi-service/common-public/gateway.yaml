@@ -1,0 +1,18 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: kong-gateway-common-teams
+  namespace: public-gateway-http
+spec:
+  gatewayClassName: kong-class-multi
+  listeners:
+  - name: http-common
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+  addresses:
+    - type: Hostname
+      value: kong-multi-public-gateway-proxy-654447515.eu-west-1.elb.amazonaws.com

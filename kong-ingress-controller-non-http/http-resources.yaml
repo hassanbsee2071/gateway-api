@@ -1,0 +1,54 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: kong-class-nonhttp
+  annotations:
+    konghq.com/gatewayclass-unmanaged: 'true'
+spec:
+  controllerName: konghq.com/kic-gateway-controller-nonhttp
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+ name: kong-gateway-nonhttp-http
+ namespace: public-gateway
+spec:
+ gatewayClassName: kong-class-nonhttp
+ listeners:
+ - name: proxy
+   port: 80
+   protocol: HTTP
+   allowedRoutes:
+     namespaces:
+        from: All
+
+
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: nginx-tajawal-nonhttp-instance
+  namespace: application
+spec:
+  hostnames:
+  - nginx-nonhttp.tajawal.io
+  parentRefs:
+    - name: kong-gateway-nonhttp-http
+      namespace: public-gateway
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /non-istio
+      backendRefs:
+        # - name: echoserver-service-non-istio
+        #   port: 80
+
+        - name: kong-nonhttp-gateway-admin
+          port: 8001
+          kind: Service
+          namespace: kong-nonhttp
+
+          
